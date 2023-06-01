@@ -1,18 +1,24 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+
+import { StyleSheet, Text, View,TouchableOpacity, Easing } from 'react-native';
 import moment from 'moment'
+import React, { useEffect, useState } from 'react';
+
 
 
 function TimeDisplay(props) {
     const today = new Date()
     const [currentTime,setCurrentTime]=useState((moment(today).format('LT')))
 
-    // useEffect=(()=>{
-    //     setInterval(function(){
-    //         setCurrentTime((moment(today).format('LT')))
-    //      },1000);
-    // });
+    useEffect=(()=>{
+        const interval = setInterval(()=>{
+            setCurrentTime((moment(today).format('LT')))
+         },1000);
 
+
+         return()=>{
+            clearInterval(interval)
+         };
+    });
  
     return (
       <View style={styles.timeDiplayContainer}>
