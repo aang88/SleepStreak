@@ -16,11 +16,10 @@ function BedtimeSet(props) {
         console.log(bedTime)
         console.log(match1)
         console.log(match2)
-        props.callback(bedTime,wakeTime)
         if(match1&&match2){
-            // props.callback(bedTime,wakeTime)
+            props.callback(bedTime,wakeTime)
         }else{
-           // alert("Must be in format 00:00 AM/PM")
+           alert("Must be in format 00:00 AM/PM")
         }
        
     }

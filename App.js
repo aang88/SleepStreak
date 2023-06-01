@@ -17,8 +17,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* {bedTime === "" ? <BedtimeSet callback={setTimes}/>:<CounterPage bedtime={bedTime} waketime={wakeTime}/>} */}
-      <CounterPage bedtime={bedTime} waketime={wakeTime}/>
+      {bedTime === "" ? <BedtimeSet callback={setTimes}/>:<CounterPage bedtime={bedTime} waketime={wakeTime}/>}
+      
     </View>
   );
 }

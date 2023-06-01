@@ -9,17 +9,7 @@ function TimeDisplay(props) {
     const today = new Date()
     const [currentTime,setCurrentTime]=useState((moment(today).format('LT')))
 
-    useEffect=(()=>{
-        const interval = setInterval(()=>{
-            setCurrentTime((moment(today).format('LT')))
-         },1000);
-
-
-         return()=>{
-            clearInterval(interval)
-         };
-    },[]);
- 
+    useEffect(() => { const interval = setInterval(() => { setCurrentTime(moment(new Date()).format('LT')); }, 1000); return () => { clearInterval(interval); }; }, []);
     return (
       <View style={styles.timeDiplayContainer}>
         <View style={styles.timesContainer}>
@@ -52,7 +42,7 @@ const styles = StyleSheet.create({
   
     },
     headerTimeText: {
-        fontSize: 10,
+        fontSize: 15,
         color:"#F4F6F1",
        
       },
