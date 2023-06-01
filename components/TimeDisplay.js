@@ -18,7 +18,7 @@ function TimeDisplay(props) {
          return()=>{
             clearInterval(interval)
          };
-    });
+    },[]);
  
     return (
       <View style={styles.timeDiplayContainer}>
