@@ -1,19 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,Dimensions } from 'react-native';
+import CounterPage from './components/CounterPage';
+import BedtimeSet from './components/BedtimeSet';
+import { useState,useEffect } from 'react';
+
 
 export default function App() {
+  const[bedTime,SetBedtime]=useState("")
+  const[wakeTime,SetWaketime]=useState("")
+
+  function setTimes(bedtime,waketime){
+    SetBedtime(bedtime);
+    SetWaketime(waketime);
+    console.log(bedTime+", "+wakeTime);
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {bedTime === "" ? <BedtimeSet callback={setTimes}/>:<CounterPage bedtime={bedTime} waketime={wakeTime}/>}
     </View>
   );
 }
-
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#142232',
     alignItems: 'center',
     justifyContent: 'center',
   },
