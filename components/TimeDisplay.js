@@ -7,11 +7,11 @@ function TimeDisplay(props) {
     const today = new Date()
     const [currentTime,setCurrentTime]=useState((moment(today).format('LT')))
 
-    // useEffect=(()=>{
-    //     setInterval(function(){
-    //         setCurrentTime((moment(today).format('LT')))
-    //      },1000);
-    // });
+    useEffect=(()=>{
+        setInterval(function(){
+            setCurrentTime((moment(today).format('LT')))
+         },1000);
+    });
 
  
     return (
