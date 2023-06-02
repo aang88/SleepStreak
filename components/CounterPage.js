@@ -1,23 +1,114 @@
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import { AppState,StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import Count from './Count';
 import TimeDisplay from './TimeDisplay'
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useRef } from 'react';
 import moment from 'moment'
 
 
 
 function CounterPage(props) {
     const [sleepcount, setCount] = useState(0)
+    const appState = useRef(AppState.currentState);
+    const [appStateVisible, setAppStateVisible] = useState(appState.current);
+    const today = new Date()
+    const [currentTime,setCurrentTime]=useState((moment(today).format('HH:mm')))
+    const [sleepState,setSleepState]=useState("")
+    const [addPoint,setAddPoint] = useState(false);
+    
 
 
+//Check AppState
+   useEffect(() => {
+     const subscription = AppState.addEventListener('change', nextAppState => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === 'active'
+        ) {
+          console.log('App has come to the foreground!');
+        }
 
+        appState.current = nextAppState;
+        setAppStateVisible(appState.current);
+        console.log('AppState', appState.current);
+      });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  //Date Updating, why it's here idk why lol 
+  useEffect(() => { 
+    const interval = setInterval(() => { 
+      setCurrentTime(moment(new Date()).format('HH:mm')); 
+      console.log(currentTime)
+      BedTimeLogic()
+     }, 1000); 
+       return () => 
+       { clearInterval(interval);}; 
+    }, [currentTime]);
 
     function AddCount(){
       setCount(sleepcount+1)
     }
     function ResetStreak(){
+      console.log(appStateVisible)
       setCount(0)
     }
+
+    function BedTimeLogic(){
+      if(props.bedtime<props.waketime){
+        if(currentTime>props.bedtime&&currentTime<props.waketime){
+          if(appStateVisible=="active"){
+            ResetStreak()
+            setAddPoint(false)
+          }
+          console.log("ZZZZZZZZZ");
+        }
+        else if(currentTime==props.waketime){
+          if(addPoint){
+            setCount(sleepcount+1)
+          }
+          setAddPoint(false)
+          console.log("AYAYAYAYAYA")
+        }
+        else if(currentTime==props.bedtime){
+          setAddPoint(true)
+          console.log("GN STREAKS")
+        }
+        else{
+          console.log("AWAKE")
+        }
+      }
+      else if(props.bedtime>props.waketime){
+        if(currentTime<props.bedtime||currentTime>props.waketime){
+          console.log("AWAKE");
+        }
+        else if(currentTime==props.waketime){
+          if(addPoint){
+            setCount(sleepcount+1)
+          }
+          setAddPoint(false)
+          console.log("AYAYAYAYAYA")
+        }
+        else if(currentTime==props.bedtime){
+          setAddPoint(true)
+          console.log("GN STREAKS")
+        }
+        else{
+          console.log("ZZZZZZZZZ")
+          if(appStateVisible=="active"){
+            ResetStreak()
+            setAddPoint(false)
+          }
+        }
+      }
+
+    }
+
+
+
+
     return (
         <View style={styles.container}>
             <View style={styles.displayContainer}>

@@ -10,7 +10,7 @@ function BedtimeSet(props) {
     const[wakeTime,SetWaketime]=useState("")
 
     function timeCallBack(){
-        var pattern = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
+        var pattern = /^([01]\d|2[0-3]):?([0-5]\d)$/;
         var match1 = bedTime.match(pattern)
         var match2 = wakeTime.match(pattern)
         console.log(bedTime)
@@ -19,7 +19,7 @@ function BedtimeSet(props) {
         if(match1&&match2){
             props.callback(bedTime,wakeTime)
         }else{
-           alert("Must be in format 00:00 AM/PM")
+           alert("Must be in Military Time")
         }
        
     }
@@ -27,7 +27,7 @@ function BedtimeSet(props) {
     return (
       <View style={styles.container}>
         <View>
-            <Text style={styles.headerText}>Set your bed time and wake up time</Text>
+            <Text style={styles.headerText}>Set your bed time and wake up time (Military Time)</Text>
         </View>
 
         <View style={styles.textInputContainer}>

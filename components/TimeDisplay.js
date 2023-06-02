@@ -7,20 +7,21 @@ import React, { useEffect, useState } from 'react';
 
 function TimeDisplay(props) {
     const today = new Date()
-    const [currentTime,setCurrentTime]=useState((moment(today).format('LT')))
+    const [currentTime,setCurrentTime]=useState((moment(today).format('HH:mm:ss')))
 
-    useEffect(() => { const interval = setInterval(() => { setCurrentTime(moment(new Date()).format('LT')); }, 1000); return () => { clearInterval(interval); }; }, []);
+    useEffect(() => { const interval = setInterval(() => { setCurrentTime(moment(new Date()).format('HH:mm:ss')); }, 1000); return () => { clearInterval(interval); }; }, []);
     return (
       <View style={styles.timeDiplayContainer}>
-        <View style={styles.timesContainer}>
-            <Text style={styles.headerTimeText}>Wake Up Time:</Text>
-            <Text style={styles.sleepyTimeText}>{props.waketime}</Text>
-        </View>
-        <Text style={styles.currentTimeText}>{currentTime}</Text>
         <View style={styles.timesContainer}> 
             <Text style={styles.headerTimeText}>Bed Time:</Text>
             <Text style={styles.sleepyTimeText}>{props.bedtime}</Text>
         </View>
+        <Text style={styles.currentTimeText}>{currentTime}</Text>
+        <View style={styles.timesContainer}>
+            <Text style={styles.headerTimeText}>Wake Up Time:</Text>
+            <Text style={styles.sleepyTimeText}>{props.waketime}</Text>
+        </View>
+      
       </View>
     );
   }
