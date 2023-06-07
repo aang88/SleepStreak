@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 
 function TimeDisplay(props) {
     const today = new Date()
-    const [currentTime,setCurrentTime]=useState((moment(today).format('HH:mm:ss')))
+    const [currentTime,setCurrentTime]=useState((moment(today).format('hh:mm:ss')))
 
     useEffect(() => { const interval = setInterval(() => { setCurrentTime(moment(new Date()).format('HH:mm:ss')); }, 1000); return () => { clearInterval(interval); }; }, []);
     return (

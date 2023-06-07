@@ -6,8 +6,10 @@ import moment from 'moment'
 
 
 
+
 function CounterPage(props) {
-    const [sleepcount, setCount] = useState(0)
+    console.log(props.streak)
+    const [sleepcount, setCount] = useState(props.streak)
     const appState = useRef(AppState.currentState);
     const [appStateVisible, setAppStateVisible] = useState(appState.current);
     const today = new Date()
@@ -48,12 +50,14 @@ function CounterPage(props) {
        { clearInterval(interval);}; 
     }, [currentTime]);
 
-    function AddCount(){
+    function AddStreak(){
       setCount(sleepcount+1)
+      props.callbackStreak(sleepcount+1)
     }
     function ResetStreak(){
       console.log(appStateVisible)
       setCount(0)
+      props.callbackStreak(0)
     }
 
     function BedTimeLogic(){
@@ -86,7 +90,7 @@ function CounterPage(props) {
         }
         else if(currentTime==props.waketime){
           if(addPoint){
-            setCount(sleepcount+1)
+            AddStreak();
           }
           setAddPoint(false)
           console.log("AYAYAYAYAYA")
@@ -119,7 +123,7 @@ function CounterPage(props) {
 
         <TouchableOpacity
           style={[styles.buttonLargeContainer]}
-          onPress={() => {setCount(sleepcount+1)}}>
+          onPress={() => {AddStreak()}}>
           <Text style={styles.buttonText}>Add Count</Text>
        </TouchableOpacity>
 
