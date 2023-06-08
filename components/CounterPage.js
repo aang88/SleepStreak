@@ -3,6 +3,7 @@ import Count from './Count';
 import TimeDisplay from './TimeDisplay'
 import { useState,useEffect,useRef } from 'react';
 import moment from 'moment'
+import { useFonts, Nunito } from '@expo-google-fonts/inter';
 
 
 
@@ -17,6 +18,10 @@ function CounterPage(props) {
     const [sleepState,setSleepState]=useState("")
     const [addPoint,setAddPoint] = useState(false);
     
+    
+    let [fontsLoaded] = useFonts({
+      'Nuito': require('../resources/Nunito-VariableFont_wght.ttf'),
+    });
 
 
 //Check AppState
@@ -147,9 +152,11 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems: 'center',
         justifyContent: 'center',
+        fontFamily: 'Nuito',
     },
     displayContainer:{
         flexDirection:'row',
+        fontFamily: 'Nuito',
         marginBottom: 30,
         gap: 50,
         marginLeft:70,
@@ -169,6 +176,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
       },
       buttonText:{
+
         color: "#F4F6F1",
       }
   });

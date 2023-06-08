@@ -1,18 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,TouchableOpacity,Dimensions } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,Dimensions,ImageBackground} from 'react-native';
 import CounterPage from './components/CounterPage';
 import BedtimeSet from './components/BedtimeSet';
 import { useState,useEffect } from 'react';
 import { collection, addDoc,setDoc,doc,getDoc,updateDoc  } from "firebase/firestore"; 
+import Svg, {Image,Rect,Defs,Mask} from 'react-native-svg';
 import SignIn from './components/SignIn';
 import { db } from './firebase-config';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
 
 export default function App() {
+
+  var options = {
+    animate: true,
+    patternWidth: 100,
+    patternHeight: 100,
+    grainOpacity: 0.05,
+    grainDensity: 1,
+    grainWidth: 1,
+    grainHeight: 1
+};
 
   const[bedTime,SetBedtime]=useState("")
   const[wakeTime,SetWaketime]=useState("")
   const[streak,setStreak]=useState(0)
   const[user, SetUser] = useState(null)
+
+  const image = {uri: 'https://arc.net/noise.png'};
 
   async function setTimes(bedtime,waketime){
      SetBedtime(bedtime);
@@ -48,7 +64,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Header></Header>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}></ImageBackground>
       {user? bedTime === ""? <BedtimeSet callback={setTimes}/>:<CounterPage streak={streak} callbackStreak={setStreaks}bedtime={bedTime} waketime={wakeTime}/>:<SignIn callbackUser={setUsers} callbackTimes={setTimes} callbackStreak={setStreaks}/>}
+      <Footer></Footer>
     </View>
   );
 }
@@ -57,8 +76,13 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#142232',
+    backgroundColor:'hsla(212,42%,13%,1)',
+    backgroundImage: "radial-gradient(at 75% 85%, hsla(83,21%,95%,1) 0px, transparent 50%), radial-gradient(at 12% 95%, hsla(194,78%,20%,1) 0px, transparent 50%),radial-gradient(at 80% 100%, hsla(192,61%,44%,1) 0px, transparent 50%),radial-gradient(at 0% 0%, hsla(178,59%,55%,1) 0px, transparent 50%)",
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+
     justifyContent: 'center',
   },
 });

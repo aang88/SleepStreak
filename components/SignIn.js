@@ -41,7 +41,7 @@ const handleSignIn = () =>{
         const sleepTime = docSnap.get("sleeptime")
         const streak = docSnap.get("streak")
 
-        console.log(streak)
+        
         
         props.callbackTimes(sleepTime,wakeTime)
         props.callbackStreak(streak)
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         margin:20
       },
     buttonText:{
-        color: "#F4F6F1",
+        color: "#F4F6F1"
     },
     headerText:{
         fontSize: 30,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         margin: 10,
         alignItems: 'center',
-
+        color: "#F4F6F1"
      }
   
   });

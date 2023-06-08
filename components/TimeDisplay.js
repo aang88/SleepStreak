@@ -2,12 +2,20 @@
 import { StyleSheet, Text, View,TouchableOpacity, Easing } from 'react-native';
 import moment from 'moment'
 import React, { useEffect, useState } from 'react';
+import { useFonts, Nunito } from '@expo-google-fonts/inter';
+
+
 
 
 
 function TimeDisplay(props) {
     const today = new Date()
     const [currentTime,setCurrentTime]=useState((moment(today).format('hh:mm:ss')))
+    let [fontsLoaded] = useFonts({
+      'Nuito': require('../resources/Nunito-VariableFont_wght.ttf'),
+      'Abril': require('../resources/AbrilFatface-Regular.ttf'),
+    });
+
 
     useEffect(() => { const interval = setInterval(() => { setCurrentTime(moment(new Date()).format('HH:mm:ss')); }, 1000); return () => { clearInterval(interval); }; }, []);
     return (
@@ -40,12 +48,13 @@ const styles = StyleSheet.create({
     sleepyTimeText: {
       fontSize: 25,
       color:"#F4F6F1",
+      fontFamily: "Nuito",
   
     },
     headerTimeText: {
         fontSize: 15,
         color:"#F4F6F1",
-       
+        fontFamily: "Nuito",
       },
 
     timesContainer:{
@@ -56,5 +65,6 @@ const styles = StyleSheet.create({
     currentTimeText: {
         fontSize: 100,
         color:"#F4F6F1",
+        fontFamily: "Abril",
       },
   });

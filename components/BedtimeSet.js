@@ -1,9 +1,15 @@
 import { StyleSheet, Text, View,TouchableOpacity,TextInput} from 'react-native';
 import { useState,useEffect } from 'react';
 import moment from 'moment'
+import { useFonts, Nunito } from '@expo-google-fonts/inter';
 
 
 function BedtimeSet(props) {
+    let [fontsLoaded] = useFonts({
+        'Nuito': require('../resources/Nunito-VariableFont_wght.ttf'),
+        'Abril': require('../resources/AbrilFatface-Regular.ttf'),
+      });
+  
 
 
     const[bedTime,SetBedtime]=useState("")
@@ -89,14 +95,17 @@ const styles = StyleSheet.create({
       },
     buttonText:{
         color: "#F4F6F1",
+        fontFamily: "Nuito"
     },
     headerText:{
         fontSize: 30,
         color:"#F4F6F1",
+        fontFamily: "Abril"
     },
     headerText2:{
         fontSize: 20,
         color:"#F4F6F1",
+        fontFamily: "Abril",
     },
     input: {
         height: 40,
