@@ -9,6 +9,8 @@ import SignIn from './components/SignIn';
 import { db } from './firebase-config';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Particles from 'react-tsparticles';
+import particlesConfig from './components/particles-config';
 
 
 export default function App() {
@@ -62,12 +64,15 @@ export default function App() {
 }  
 
   return (
-    <View style={styles.container}>
+
+    <ImageBackground style={styles.container}resizeMode={'stretch'}> 
+   
       <Header></Header>
+     
       {user? bedTime === ""? <BedtimeSet callback={setTimes}/>:<CounterPage streak={streak} callbackStreak={setStreaks}bedtime={bedTime} waketime={wakeTime}/>:<SignIn callbackUser={setUsers} callbackTimes={setTimes} callbackStreak={setStreaks}/>}
       <Footer></Footer>
-
-    </View>
+     
+    </ImageBackground>
   );
 }
 const width = Dimensions.get('window').width;

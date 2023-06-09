@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     headerText2:{
         fontSize: 20,
         color:"#F4F6F1",
-        fontFamily: "Abril",
+        fontFamily: "Nuito"
     },
     input: {
         height: 40,

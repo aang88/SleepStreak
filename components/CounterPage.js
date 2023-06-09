@@ -1,9 +1,12 @@
 import { AppState,StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import Count from './Count';
 import TimeDisplay from './TimeDisplay'
+import SetTimeDisplay from './SetTimeDisplay';
 import { useState,useEffect,useRef } from 'react';
 import moment from 'moment'
 import { useFonts, Nunito } from '@expo-google-fonts/inter';
+import { faBed } from '@fortawesome/free-solid-svg-icons'
+
 
 
 
@@ -19,10 +22,7 @@ function CounterPage(props) {
     const [addPoint,setAddPoint] = useState(false);
     
     
-    let [fontsLoaded] = useFonts({
-      'Nuito': require('../resources/Nunito-VariableFont_wght.ttf'),
-    });
-
+  
 
 //Check AppState
    useEffect(() => {
@@ -122,7 +122,11 @@ function CounterPage(props) {
         <View style={styles.container}>
             <View style={styles.displayContainer}>
                 <TimeDisplay bedtime={props.bedtime} waketime={props.waketime}/>
+                <View style={styles.stats}>
+                <SetTimeDisplay  icon='faBed' text="Bed Time:" time={props.bedtime}/>
+                <SetTimeDisplay time={props.waketime} icon='faSun' text="Wake Time:"/>
                 <Count style={styles.countButton}count={sleepcount}/>
+                </View>
             </View>
       <View style={styles.buttonsContainer}>
 
@@ -154,11 +158,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         fontFamily: 'Nuito',
     },
+    stats:{
+      flexDirection:"row",
+      gap:10,
+      marginLeft:-50
+    },
     displayContainer:{
-        flexDirection:'row',
+        flexDirection:'column',
         fontFamily: 'Nuito',
         marginBottom: 30,
-        gap: 50,
+        gap: 10,
         marginLeft:70,
     },
     buttonsContainer:{
