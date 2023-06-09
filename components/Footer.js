@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,ImageBackground } from 'react-native';
 
 
 function Footer() {
     return (
-        <View style={styles.container}>
-        </View>
+        <ImageBackground source={require("../resources/noise3.png")}style={styles.container} resizeMode={'repeat'}/> 
     );
   }
 
@@ -15,7 +14,8 @@ const styles = StyleSheet.create({
         backgroundColor:"#0B495C",
         borderColor:"#F4F6F1",
         width:"100%",
-        height:"5%"
+
+        height:50
        
     }
  

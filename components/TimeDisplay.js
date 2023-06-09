@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View,TouchableOpacity, Easing } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity, Easing ,ImageBackground} from 'react-native';
 import moment from 'moment'
 import React, { useEffect, useState } from 'react';
 import { useFonts, Nunito } from '@expo-google-fonts/inter';
@@ -19,7 +19,7 @@ function TimeDisplay(props) {
 
     useEffect(() => { const interval = setInterval(() => { setCurrentTime(moment(new Date()).format('HH:mm:ss')); }, 1000); return () => { clearInterval(interval); }; }, []);
     return (
-      <View style={styles.timeDiplayContainer}>
+       <ImageBackground source={require("../resources/noise3.png")}style={styles.timeDiplayContainer}resizeMode={'repeat'}> 
         <View style={styles.timesContainer}> 
             <Text style={styles.headerTimeText}>Bed Time:</Text>
             <Text style={styles.sleepyTimeText}>{props.bedtime}</Text>
@@ -30,7 +30,7 @@ function TimeDisplay(props) {
             <Text style={styles.sleepyTimeText}>{props.waketime}</Text>
         </View>
       
-      </View>
+      </ImageBackground>
     );
   }
 

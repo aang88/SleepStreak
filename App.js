@@ -28,7 +28,6 @@ export default function App() {
   const[streak,setStreak]=useState(0)
   const[user, SetUser] = useState(null)
 
-  const image = {uri: 'https://arc.net/noise.png'};
 
   async function setTimes(bedtime,waketime){
      SetBedtime(bedtime);
@@ -65,9 +64,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Header></Header>
-      <ImageBackground source={image} resizeMode="cover" style={styles.image}></ImageBackground>
       {user? bedTime === ""? <BedtimeSet callback={setTimes}/>:<CounterPage streak={streak} callbackStreak={setStreaks}bedtime={bedTime} waketime={wakeTime}/>:<SignIn callbackUser={setUsers} callbackTimes={setTimes} callbackStreak={setStreaks}/>}
       <Footer></Footer>
+
     </View>
   );
 }
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor:'hsla(212,42%,13%,1)',
-    backgroundImage: "radial-gradient(at 75% 85%, hsla(83,21%,95%,1) 0px, transparent 50%), radial-gradient(at 12% 95%, hsla(194,78%,20%,1) 0px, transparent 50%),radial-gradient(at 80% 100%, hsla(192,61%,44%,1) 0px, transparent 50%),radial-gradient(at 0% 0%, hsla(178,59%,55%,1) 0px, transparent 50%)",
+    backgroundImage: "url(./resources/testimg.png),radial-gradient(at 75% 85%, hsla(83,21%,95%,1) 0px, transparent 50%), radial-gradient(at 12% 95%, hsla(194,78%,20%,1) 0px, transparent 50%),radial-gradient(at 80% 100%, hsla(192,61%,44%,1) 0px, transparent 50%),radial-gradient(at 0% 0%, hsla(178,59%,55%,1) 0px, transparent 50%)",
     alignItems: 'center',
     justifyContent: 'center',
   },

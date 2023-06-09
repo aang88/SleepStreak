@@ -1,10 +1,16 @@
-import { StyleSheet, Text, View,TouchableOpacity,TextInput } from 'react-native';
+import { BackgroundImage,StyleSheet, Text, View,TouchableOpacity,TextInput,ImageBackground   } from 'react-native';
 import { initializeApp } from 'firebase/app';
 import {firebaseConfig} from '../firebase-config'
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,onAuthStateChanged } from 'firebase/auth'
 import { useState,useEffect } from 'react';
 import {auth,db} from '../firebase-config'
 import { collection, addDoc,setDoc,doc,getDoc  } from "firebase/firestore"; 
+import { useFonts, Nunito } from '@expo-google-fonts/inter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {  faMoon } from '@fortawesome/free-solid-svg-icons'
+
+
+
 
 
 
@@ -12,6 +18,11 @@ function SignIn(props) {
     const [email,setEmail] = useState('');
     const [password, setPassword] = useState('')
     const [userid,setUserID] = useState('')
+    let [fontsLoaded] = useFonts({
+        'Slabo': require('../resources/Slabo27px-Regular.ttf'),
+        'Abril': require('../resources/AbrilFatface-Regular.ttf'),
+        'Nuito': require('../resources/Nunito-VariableFont_wght.ttf'),
+      });
 
     
 const handleCreateAccount = async () =>{
@@ -49,25 +60,31 @@ const handleSignIn = () =>{
     })
 }
     return (
-        <View style={styles.container}>
-            <View>
-                <Text>Email</Text>
+        
+        <ImageBackground source={require("../resources/noise3.png")}style={styles.container}resizeMode={'repeat'}>           
+            <Text  style={styles.welcomeText}>Welcome</Text>
+            
+            <View style={styles.inputContainers}> 
+          
+                {/* <Text style={styles.headerText}>Email</Text> */}
                 <TextInput
                     onChangeText={text=>setEmail(text)}
-                    style={[styles.buttonLargeContainer]}
+                    style={styles.textInputContainer}
                     placeholder="Email"
                 />
             </View>
-            <View>
-                <Text>Password:</Text>
+            <View style={styles.inputContainers}>
+                {/* <Text style={styles.headerText}>Password:</Text> */}
+
                 <TextInput
                     onChangeText={text=>setPassword(text)}
-                    style={[styles.buttonLargeContainer]}
+                    style={[styles.textInputContainer]}
                     placeholder="Password"
                 />
             </View>
 
-            <TouchableOpacity
+           <View style={styles.buttonGroup}>
+           <TouchableOpacity
                 style={[styles.buttonLargeContainer]}
                 onPress={() => {handleSignIn()}}>
                 <Text style={styles.buttonText}>Login</Text>
@@ -79,9 +96,9 @@ const handleSignIn = () =>{
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
 
-
-            
-        </View>
+           </View>
+          
+        </ImageBackground>
     );
   }
 
@@ -92,49 +109,78 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: "#0B495C",
+        margin: 40,
+        width: 600,
+        borderRadius: 30,
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    },  
+    inputContainers:{
+        gap: 2,
+        marginLeft: -125,
     },
-    buttonsContainer:{
-        width: 1000,
-        flexDirection: 'row',
-        marginRight: -800,
-        gap: 10,
-        marginTop: 10,
-      },
+    buttonGroup:{
+        marginTop:100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: "100%",
+        height: 20,
+        borderRadius: 10,
+        margin:10
+    },
     buttonLargeContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
-        height: 50,
-        backgroundColor: '#2C99B7',
+        width: "50%",
+        height: 35,
+        backgroundColor: "#0B495C",
+        borderColor:  "#0B495C",
+        borderWidth: 1,
+        borderColor: "#F4F6F1",
         borderRadius: 10,
-        margin:20
+        margin:10,
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
       },
+    
     buttonText:{
-        color: "#F4F6F1"
+        color: "#F4F6F1",
+        fontFamily: "Nuito",
     },
     headerText:{
-        fontSize: 30,
-        color:"#F4F6F1",
-    },
-    headerText2:{
         fontSize: 20,
+        fontFamily: "Slabo",
         color:"#F4F6F1",
     },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-        borderColor: "#F4F6F1",
-        borderRadius: 20,
-        color: "#F4F6F1",
-      },
      textInputContainer:{
         justifyContent: 'center',
         flexDirection:"row",
-        margin: 10,
+        margin: 5,
         alignItems: 'center',
-        color: "#F4F6F1"
+        color: "#F4F6F1",
+        fontFamily: "Nuito",
+        borderColor:  "#0B495C",
+        borderWidth: 1,
+        borderBottomColor: "#F4F6F1",
+        height: 30,
+        width:"180%",
+        borderRadius:10, shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+
+     },
+     welcomeText:{
+        color: "#F4F6F1",
+        fontFamily: "Abril",
+        fontSize: 50,
+        margin:50,
+        marginTop:-100
      }
   
   });

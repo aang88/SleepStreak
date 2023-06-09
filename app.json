@@ -25,6 +25,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "expo":{
+      "packagerOpts": { "config": "metro.config.js", 
+      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"] }, 
+      "transformer": { "assetPlugins": ["expo-asset/tools/hashAssetFiles", "react-native-svg-transformer"] }
     }
   }
 }

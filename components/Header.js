@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,ImageBackground} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon } from '@fortawesome/free-solid-svg-icons'
 import { useFonts, Nunito } from '@expo-google-fonts/inter';
@@ -10,10 +10,10 @@ function Header() {
         'Abril': require('../resources/AbrilFatface-Regular.ttf'),
       });
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require("../resources/noise3.png")}style={styles.container}resizeMode={'repeat'}> 
             <Text style={styles.headerText}>SleepStreak</Text>
             <FontAwesomeIcon style={styles.headerText} icon={faMoon} />
-        </View>
+       </ImageBackground>
     );
   }
 
@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
         backgroundColor:"#0B495C",
         borderColor:"#F4F6F1",
         width:"100%",
-        height:"8%",
         alignItems: 'center',
         justifyContent: 'center',
         color: "white",
