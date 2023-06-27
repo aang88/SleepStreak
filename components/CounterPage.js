@@ -6,12 +6,16 @@ import { useState,useEffect,useRef } from 'react';
 import moment from 'moment'
 import { useFonts, Nunito } from '@expo-google-fonts/inter';
 import { faBed } from '@fortawesome/free-solid-svg-icons'
+import CreateSleepOver from './CreateSleepOver';
+import Sleepover from './Sleepover';
+import {auth,db} from '../firebase-config'
+import { collection, addDoc,setDoc,doc,getDoc} from "firebase/firestore"; 
+import SleepoverRequest from './SleepoverRequests';
 
 
 
 
-
-function CounterPage(props) {
+ function CounterPage(props) {
     console.log(props.streak)
     const [sleepcount, setCount] = useState(props.streak)
     const appState = useRef(AppState.currentState);
@@ -20,9 +24,25 @@ function CounterPage(props) {
     const [currentTime,setCurrentTime]=useState((moment(today).format('HH:mm')))
     const [sleepState,setSleepState]=useState("")
     const [addPoint,setAddPoint] = useState(false);
-    
-    
-  
+    const [sleepover,setSleepOver]=useState("")
+
+
+      useEffect(() => {
+        if (props.userId!="") {
+          async function getSleepover(){
+            const docSnap = await getDoc(doc(db, "users",props.userId ));
+            //console.log(await docSnap.get("sleepover"));
+            setSleepOver(await docSnap.get("sleepover"))
+          }
+
+          getSleepover();
+       
+         
+        } else {
+          console.log("not found");
+        }
+      }, [props.userId]);
+      
 
 //Check AppState
    useEffect(() => {
@@ -126,10 +146,11 @@ function CounterPage(props) {
                 <SetTimeDisplay  icon='faBed' text="Bed Time:" time={props.bedtime}/>
                 <SetTimeDisplay time={props.waketime} icon='faSun' text="Wake Time:"/>
                 <Count style={styles.countButton}count={sleepcount}/>
+               
                 </View>
             </View>
       <View style={styles.buttonsContainer}>
-
+      <CreateSleepOver userId={props.userId}/>
         <TouchableOpacity
           style={[styles.buttonLargeContainer]}
           onPress={() => {AddStreak()}}>
@@ -141,6 +162,9 @@ function CounterPage(props) {
           onPress={() => {ResetStreak()}}>
           <Text style={styles.buttonText}>Reset Count</Text>
         </TouchableOpacity>
+
+        {sleepover===""? <SleepoverRequest/>:<Sleepover userId={props.userId} sleepoverid={sleepover}/>}
+        
 
       </View>
 
@@ -173,7 +197,7 @@ const styles = StyleSheet.create({
     buttonsContainer:{
         width: 1000,
         flexDirection: 'row',
-        marginRight: -800,
+        marginRight: -100,
         gap: 10,
       },
       buttonLargeContainer: {

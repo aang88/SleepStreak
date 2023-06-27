@@ -29,6 +29,7 @@ export default function App() {
   const[wakeTime,SetWaketime]=useState("")
   const[streak,setStreak]=useState(0)
   const[user, SetUser] = useState(null)
+  const[userId, SetUserID] = useState("")
 
 
   async function setTimes(bedtime,waketime){
@@ -58,10 +59,12 @@ export default function App() {
   }
 
 
-  function setUsers(user)
-{
-  SetUser(user)
-}  
+  function setUsers(user,useruid)
+  {
+    console.log("User"+ user.uid)
+    SetUserID(user.uid)
+    SetUser(user)
+  }  
 
   return (
 
@@ -69,7 +72,7 @@ export default function App() {
    
       <Header></Header>
      
-      {user? bedTime === ""? <BedtimeSet callback={setTimes}/>:<CounterPage streak={streak} callbackStreak={setStreaks}bedtime={bedTime} waketime={wakeTime}/>:<SignIn callbackUser={setUsers} callbackTimes={setTimes} callbackStreak={setStreaks}/>}
+      {user? bedTime === ""? <BedtimeSet callback={setTimes}/>:<CounterPage streak={streak} callbackStreak={setStreaks}bedtime={bedTime} waketime={wakeTime} userId={userId}/>:<SignIn callbackUser={setUsers} callbackTimes={setTimes} callbackStreak={setStreaks}/>}
       <Footer></Footer>
      
     </ImageBackground>

@@ -31,7 +31,10 @@ const handleCreateAccount = async () =>{
         props.callbackUser(userCredential.user)
         setDoc(doc(db, "users", userCredential.user.uid), {sleeptime: "",
         waketime: "",
-        streak: 0});
+        streak: 0,
+        requests:[],
+        sleepover:""
+    });
     })
     .catch(error=>{
         console.log(error);
@@ -39,21 +42,20 @@ const handleCreateAccount = async () =>{
 }
 
 const handleSignIn = () =>{
-    signInWithEmailAndPassword(auth,email,password).then(async (userCredential)=>{
+    const{user}=signInWithEmailAndPassword(auth,email,password).then(async (userCredential)=>{
         console.log("Signed In!")
-        var useruid = userCredential.user.userUid;
     
-        props.callbackUser(userCredential.user)
+        
     
         const docSnap = await getDoc(doc(db, "users", userCredential.user.uid));
-        console.log(docSnap.data())
-        
+        // console.log(docSnap.data())
+        console.log(userCredential.user.uid)
+        setUserID(userCredential.user.uid);
         const wakeTime = docSnap.get("waketime")
         const sleepTime = docSnap.get("sleeptime")
         const streak = docSnap.get("streak")
-
-        
-        
+        console.log(userid)
+        props.callbackUser(userCredential.user,userid)
         props.callbackTimes(sleepTime,wakeTime)
         props.callbackStreak(streak)
 
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
         width:"180%",
         borderRadius:10, shadowColor: '#171717',
         shadowOffset: {width: -2, height: 4},
-        shadowOpacity: 0.2,
+        shadowOpacity: 0.5,
         shadowRadius: 3,
 
      },
