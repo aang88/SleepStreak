@@ -24,6 +24,8 @@ function SleepoverRequests(props) {
   }
   getRequests()
 
+  console.log("");
+
   let [fontsLoaded] = useFonts({
     'Abril': require('../resources/AbrilFatface-Regular.ttf'),
   });
