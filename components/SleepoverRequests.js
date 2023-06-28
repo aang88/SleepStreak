@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faBed, faSun } from '@fortawesome/free-solid-svg-icons'
 import { useFonts, Nunito } from '@expo-google-fonts/inter';
 import { auth, db } from '../firebase-config'
-import { collection, addDoc, setDoc, doc, getDoc,updateDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc, getDoc,updateDoc,arrayUnion } from "firebase/firestore";
 import { useState } from 'react';
 
 
@@ -15,7 +15,7 @@ function SleepoverRequests(props) {
 
   async function AcceptInvite(request){
     updateDoc(doc(db, "users",auth.currentUser.uid), {sleepover:request});
-    updateDoc(doc(db, "sleepovers",request), {members:auth.currentUser.uid});
+    updateDoc(doc(db, "sleepovers",request), {members:arrayUnion(auth.currentUser.uid)});
   }
   async function getRequests() {
     const docSnap = await getDoc(doc(db, "users", auth.currentUser.uid));

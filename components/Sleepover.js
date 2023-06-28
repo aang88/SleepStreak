@@ -5,7 +5,7 @@ import { faMoon, faBed, faSun } from '@fortawesome/free-solid-svg-icons'
 import { useFonts, Nunito } from '@expo-google-fonts/inter';
 import { auth, db } from '../firebase-config'
 import { collection, addDoc, setDoc, doc, getDoc,updateDoc,arrayUnion } from "firebase/firestore";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
@@ -26,20 +26,23 @@ function Sleepover(props) {
     updateDoc(doc(db, "users", inviteID), {requests:arrayUnion(props.sleepoverid)});
   }
 
-  async function getSleepover() {
-    const docSnap = await getDoc(doc(db, "users", auth.currentUser.uid));
-    
-    //Get user info
-    const currentSleepOverID = await docSnap.get("sleepover")
-    const sleepoverDocSnap = await getDoc(doc(db, "sleepovers", currentSleepOverID));
-    setLeaderID(await sleepoverDocSnap.get("leader"));
-    setMembers(await sleepoverDocSnap.get("members"))
-    setTimes(await sleepoverDocSnap.get("times"));
 
-    console.log(members)
-
-  }
-  getSleepover()
+  useEffect(()=>{
+    async function getSleepover() {
+      const docSnap = await getDoc(doc(db, "users", auth.currentUser.uid));
+      
+      //Get user info
+      const currentSleepOverID = await docSnap.get("sleepover")
+      const sleepoverDocSnap = await getDoc(doc(db, "sleepovers", currentSleepOverID));
+      setLeaderID(await sleepoverDocSnap.get("leader"));
+      setMembers(await sleepoverDocSnap.get("members"))
+      setTimes(await sleepoverDocSnap.get("times"));
+  
+     
+  
+    }
+    getSleepover();
+  },[members]);
 
   let [fontsLoaded] = useFonts({
     'Abril': require('../resources/AbrilFatface-Regular.ttf'),
@@ -70,14 +73,17 @@ function Sleepover(props) {
           <Text style={styles.buttonText}>Invite User</Text>
         </TouchableOpacity>
       </View>
-      {/* {members.map((member) => {
+      {
+         console.log(members)
+      }
+      {Array.isArray(members)&&members.map((member) => {
         return (
           <View>
             <Text>{member}</Text>
           </View>
         );
-      })} */}
-      
+      })} 
+
     </ImageBackground>
   );
 }
