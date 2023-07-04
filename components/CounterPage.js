@@ -24,25 +24,30 @@ import SleepoverRequest from './SleepoverRequests';
     const [currentTime,setCurrentTime]=useState((moment(today).format('HH:mm')))
     const [sleepState,setSleepState]=useState("")
     const [addPoint,setAddPoint] = useState(false);
-    const [sleepover,setSleepOver]=useState("")
+    const [sleepover,setSleepOver]=useState("");
+    const [bedTime, SetBedtime] = useState("");
+    const [wakeTime,SetWaketime] = useState("");
+    const [name, SetName]=useState("");
 
+   
+//   useEffect(() => {
+//     SetBedtime(props.bedtime)
+//     SetWaketime(props.waketime)
 
-      useEffect(() => {
-        if (props.userId!="") {
-          async function getSleepover(){
-            const docSnap = await getDoc(doc(db, "users",props.userId ));
-            //console.log(await docSnap.get("sleepover"));
-            setSleepOver(await docSnap.get("sleepover"))
-          }
+//  }, []);
+  
 
-          getSleepover();
-       
-         
-        } else {
-          console.log("not found");
-        }
-      }, [props.userId]);
-      
+    
+    useEffect(async () => {
+      const docSnap = await getDoc(doc(db, "users",auth.currentUser.uid ));
+      //console.log(await docSnap.get("sleepover"));
+      setSleepOver(await docSnap.get("sleepover"))
+      SetBedtime(await docSnap.get("waketime"))
+      setSleepOver(await docSnap.get("sleeptime"))
+      SetWaketime(props.waketime)
+      SetName(await docSnap.get("name"))
+
+    }, []);
 
 //Check AppState
    useEffect(() => {
@@ -63,6 +68,7 @@ import SleepoverRequest from './SleepoverRequests';
       subscription.remove();
     };
   }, []);
+
 
   //Date Updating, why it's here idk why lol 
   useEffect(() => { 
@@ -86,22 +92,22 @@ import SleepoverRequest from './SleepoverRequests';
     }
 
     function BedTimeLogic(){
-      if(props.bedtime<props.waketime){
-        if(currentTime>props.bedtime&&currentTime<props.waketime){
+      if(bedTime<wakeTime){
+        if(currentTime>bedTime&&currentTime<wakeTime){
           if(appStateVisible=="active"){
             ResetStreak()
             setAddPoint(false)
           }
           console.log("ZZZZZZZZZ");
         }
-        else if(currentTime==props.waketime){
+        else if(currentTime==wakeTime){
           if(addPoint){
             setCount(sleepcount+1)
           }
           setAddPoint(false)
           console.log("AYAYAYAYAYA")
         }
-        else if(currentTime==props.bedtime){
+        else if(currentTime==wakeTime){
           setAddPoint(true)
           console.log("GN STREAKS")
         }
@@ -109,18 +115,18 @@ import SleepoverRequest from './SleepoverRequests';
           console.log("AWAKE")
         }
       }
-      else if(props.bedtime>props.waketime){
-        if(currentTime<props.bedtime||currentTime>props.waketime){
+      else if(bedTime>wakeTime){
+        if(currentTime<bedTime||currentTime>wakeTime){
           console.log("AWAKE");
         }
-        else if(currentTime==props.waketime){
+        else if(currentTime==wakeTime){
           if(addPoint){
             AddStreak();
           }
           setAddPoint(false)
           console.log("AYAYAYAYAYA")
         }
-        else if(currentTime==props.bedtime){
+        else if(currentTime==bedTime){
           setAddPoint(true)
           console.log("GN STREAKS")
         }
@@ -140,11 +146,12 @@ import SleepoverRequest from './SleepoverRequests';
 
     return (
         <View style={styles.container}>
+            <Text style={styles.textHeader}>Hello, {name}.</Text>
             <View style={styles.displayContainer}>
-                <TimeDisplay bedtime={props.bedtime} waketime={props.waketime}/>
+                <TimeDisplay bedtime={bedTime} waketime={wakeTime}/>
                 <View style={styles.stats}>
-                <SetTimeDisplay  icon='faBed' text="Bed Time:" time={props.bedtime}/>
-                <SetTimeDisplay time={props.waketime} icon='faSun' text="Wake Time:"/>
+                <SetTimeDisplay  icon='faBed' text="Bed Time:" time={bedTime}/>
+                <SetTimeDisplay time={wakeTime} icon='faSun' text="Wake Time:"/>
                 <Count style={styles.countButton}count={sleepcount}/>
                
                 </View>
@@ -211,6 +218,13 @@ const styles = StyleSheet.create({
       buttonText:{
 
         color: "#F4F6F1",
+      },textHeader:{
+        fontSize: 100,
+        color:"#F4F6F1",
+        fontFamily: "Abril",
+        margin:50,
+        marginLeft:100,
+        marginRight:100,
       }
   });
 

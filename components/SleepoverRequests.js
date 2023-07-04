@@ -12,6 +12,13 @@ import { useState } from 'react';
 function SleepoverRequests(props) {
   const [requests, setRequests] = useState([]);
 
+  async function getNameFromRequest(requestId){
+    var currName = "";
+    const docSnap = await getDoc(doc(db, "users", requestId));
+    currName =  docSnap.get("name");
+    return currName;
+  }
+
 
   async function AcceptInvite(request){
     updateDoc(doc(db, "users",auth.currentUser.uid), {sleepover:request});
@@ -24,7 +31,7 @@ function SleepoverRequests(props) {
   }
   getRequests()
 
-  console.log("");
+  console.log(",")
 
   let [fontsLoaded] = useFonts({
     'Abril': require('../resources/AbrilFatface-Regular.ttf'),
@@ -35,7 +42,7 @@ function SleepoverRequests(props) {
       {requests.map((requests) => {
         return (
           <View>
-            <Text>{requests}</Text>
+            <Text>{getNameFromRequest(requests)}</Text>
             <TouchableOpacity
                 style={[styles.buttonLargeContainer]}
                 onPress={() => { AcceptInvite(requests) }}>

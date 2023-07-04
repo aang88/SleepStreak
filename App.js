@@ -11,6 +11,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Particles from 'react-tsparticles';
 import particlesConfig from './components/particles-config';
+import SignUp from './components/SignUp';
 
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
 
 
   async function setTimes(bedtime,waketime){
+      console.log(bedtime,waketime)
      SetBedtime(bedtime);
      SetWaketime(waketime);
      updateDoc(doc(db, "users", user.uid), {sleeptime: bedtime,
@@ -72,7 +74,7 @@ export default function App() {
    
       <Header></Header>
      
-      {user? bedTime === ""? <BedtimeSet callback={setTimes}/>:<CounterPage streak={streak} callbackStreak={setStreaks}bedtime={bedTime} waketime={wakeTime} userId={userId}/>:<SignIn callbackUser={setUsers} callbackTimes={setTimes} callbackStreak={setStreaks}/>}
+      {user? bedTime === ""? <SignUp callback={setTimes}/>:<CounterPage streak={streak} callbackStreak={setStreaks}bedtime={bedTime} waketime={wakeTime} userId={userId}/>:<SignIn callbackUser={setUsers} callbackTimes={setTimes} callbackStreak={setStreaks}/>}
       <Footer></Footer>
      
     </ImageBackground>

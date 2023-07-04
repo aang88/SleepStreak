@@ -2,72 +2,43 @@ import { StyleSheet, Text, View,TouchableOpacity,TextInput} from 'react-native';
 import { useState,useEffect } from 'react';
 import moment from 'moment'
 import { useFonts, Nunito } from '@expo-google-fonts/inter';
-import { collection, addDoc,setDoc,doc,getDoc,updateDoc  } from "firebase/firestore"; 
 import {auth,db} from '../firebase-config'
+import { collection, addDoc,setDoc,doc,getDoc,updateDoc  } from "firebase/firestore"; 
 
 
-function BedtimeSet(props) {
+function NameSelect(props) {
     let [fontsLoaded] = useFonts({
         'Nuito': require('../resources/Nunito-VariableFont_wght.ttf'),
         'Abril': require('../resources/AbrilFatface-Regular.ttf'),
       });
-  
 
+    const[username,SetName]=useState("")
+    async function saveName(){
 
-    const[bedTime,SetBedtime]=useState("")
-    const[wakeTime,SetWaketime]=useState("")
-
-    function timeCallBack(){
-        var pattern = /^([01]\d|2[0-3]):?([0-5]\d)$/;
-        var match1 = bedTime.match(pattern)
-        var match2 = wakeTime.match(pattern)
-        console.log(bedTime)
-        console.log(match1)
-        console.log(match2)
-        if(match1&&match2){
-            props.callback(bedTime,wakeTime);
-
-        }else{
-           alert("Must be in Military Time")
-        }
-       
+        updateDoc(doc(db, "users", auth.currentUser.uid), {name:username});
+        props.callback(username);
     }
 
     return (
       <View style={styles.container}>
         <View>
-            <Text style={styles.headerText}>Set your bed time and wake up time (Military Time)</Text>
+            <Text style={styles.headerText}>What's your name?</Text>
         </View>
-
         <View style={styles.textInputContainer}>
             <View>
-                <Text style={styles.headerText2}>Bed time</Text>
                     <TextInput
                     style={styles.input}
-                    onChangeText={text=>SetBedtime(text)}
-                    defaultValue={bedTime}
-                    placeholder="Bedtime 🌙"
-                    
+                    onChangeText={text=>SetName(text)}
+                    defaultValue={username}
+                    placeholder="Name"
                  />
             </View>
-            <View>
-                <Text style={styles.headerText2}>Wake Time</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={text=>SetWaketime(text)}
-                    defaultValue={wakeTime}
-                    placeholder="Waketime ☀️"
-                  
-                />
-            </View>
         </View>
-
         <TouchableOpacity
           style={[styles.buttonLargeContainer]}
-          onPress={() => {timeCallBack()}}>
-          <Text style={styles.buttonText}>Set Time</Text>
+          onPress={() => {saveName()}}>
+          <Text style={styles.buttonText}>Submit</Text>
        </TouchableOpacity>
-
       </View>
     );
   }
@@ -128,4 +99,4 @@ const styles = StyleSheet.create({
      }
   });
 
-  export default BedtimeSet
+  export default NameSelect

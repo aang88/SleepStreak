@@ -33,7 +33,8 @@ const handleCreateAccount = async () =>{
         waketime: "",
         streak: 0,
         requests:[],
-        sleepover:""
+        sleepover:"",
+        name:""
     });
     })
     .catch(error=>{
@@ -54,7 +55,7 @@ const handleSignIn = () =>{
         const wakeTime = docSnap.get("waketime")
         const sleepTime = docSnap.get("sleeptime")
         const streak = docSnap.get("streak")
-        console.log(userid)
+        
         props.callbackUser(userCredential.user,userid)
         props.callbackTimes(sleepTime,wakeTime)
         props.callbackStreak(streak)
