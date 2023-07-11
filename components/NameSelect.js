@@ -16,7 +16,7 @@ function NameSelect(props) {
     async function saveName(){
 
         updateDoc(doc(db, "users", auth.currentUser.uid), {name:username});
-        props.callback(username);
+        props.callback(username);   
     }
 
     return (

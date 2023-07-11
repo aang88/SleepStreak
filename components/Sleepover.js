@@ -14,6 +14,7 @@ function Sleepover(props) {
   const [members, setMembers] = useState([]);
   const [times, setTimes] = useState([]);
   const [inviteID, setInviteID] = useState("");
+  const [name,SetName] = useState("");
   const sleepoverID = props.sleepoverid;
 
   async function SendInvite(){
@@ -35,6 +36,7 @@ function Sleepover(props) {
       const currentSleepOverID = await docSnap.get("sleepover")
       const sleepoverDocSnap = await getDoc(doc(db, "sleepovers", currentSleepOverID));
       setLeaderID(await sleepoverDocSnap.get("leader"));
+      SetName(await getDoc(doc(db, "users", leaderID)));
       setMembers(await sleepoverDocSnap.get("members"))
       setTimes(await sleepoverDocSnap.get("times"));
   
@@ -42,14 +44,14 @@ function Sleepover(props) {
   
     }
     getSleepover();
-  },[members]);
+  },[members,name]);
 
   let [fontsLoaded] = useFonts({
     'Abril': require('../resources/AbrilFatface-Regular.ttf'),
   });
   return (
     <ImageBackground source={require("../resources/noise3.png")} style={styles.container} resizeMode={'repeat'}>
-      <Text style={styles.headerText}> Sleepover</Text>
+      <Text style={styles.headerText}> {name}'s Sleepover</Text>
       <View>
         <FontAwesomeIcon style={styles.icon} icon={faBed} />
         <Text style={styles.sleepyTimeText}>{times[0]}</Text>
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     color: "white",
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: 5,
   },
   headerText: {
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderBottomColor: "#F4F6F1",
     height: 30,
-    width: "180%",
+    width: "80%",
     borderRadius: 10, shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.5,

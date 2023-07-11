@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flexDirection: "column",
     height: 100,
-    width: 360,
+    width: "20%",
     color: "white",
 
     shadowColor: '#171717',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   buttonLargeContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: "50%",
+    width: "32%",
     height: 35,
     backgroundColor: "#0B495C",
     borderColor: "#0B495C",
@@ -94,5 +94,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
+  buttonText:{
+    color: "white",
+    fontFamily: 'Nuito'
+  }
 
 });

@@ -34,7 +34,7 @@ export default function App() {
 
 
   async function setTimes(bedtime,waketime){
-      console.log(bedtime,waketime)
+  
      SetBedtime(bedtime);
      SetWaketime(waketime);
      updateDoc(doc(db, "users", user.uid), {sleeptime: bedtime,

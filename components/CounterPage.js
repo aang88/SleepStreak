@@ -38,15 +38,17 @@ import SleepoverRequest from './SleepoverRequests';
   
 
     
-    useEffect(async () => {
-      const docSnap = await getDoc(doc(db, "users",auth.currentUser.uid ));
+    useEffect(() => {
+      async function fetchData(){
+        const docSnap = await getDoc(doc(db, "users",auth.currentUser.uid ));
       //console.log(await docSnap.get("sleepover"));
       setSleepOver(await docSnap.get("sleepover"))
-      SetBedtime(await docSnap.get("waketime"))
-      setSleepOver(await docSnap.get("sleeptime"))
+      SetBedtime(await docSnap.get("sleeptime"))
       SetWaketime(props.waketime)
       SetName(await docSnap.get("name"))
-
+      console.log(sleepover)
+      }
+      fetchData();
     }, []);
 
 //Check AppState
@@ -148,16 +150,20 @@ import SleepoverRequest from './SleepoverRequests';
         <View style={styles.container}>
             <Text style={styles.textHeader}>Hello, {name}.</Text>
             <View style={styles.displayContainer}>
+                <View style={styles.middleRow}>
                 <TimeDisplay bedtime={bedTime} waketime={wakeTime}/>
+                {console.log("Sleepover:"+sleepover)}
+                {sleepover===""? <SleepoverRequest/>:<Sleepover userId={props.userId} sleepoverid={sleepover}/>}
+                </View>
                 <View style={styles.stats}>
                 <SetTimeDisplay  icon='faBed' text="Bed Time:" time={bedTime}/>
                 <SetTimeDisplay time={wakeTime} icon='faSun' text="Wake Time:"/>
                 <Count style={styles.countButton}count={sleepcount}/>
-               
+                {sleepover===""?<CreateSleepOver userId={props.userId}/>:null}
                 </View>
             </View>
       <View style={styles.buttonsContainer}>
-      <CreateSleepOver userId={props.userId}/>
+     
         <TouchableOpacity
           style={[styles.buttonLargeContainer]}
           onPress={() => {AddStreak()}}>
@@ -170,7 +176,7 @@ import SleepoverRequest from './SleepoverRequests';
           <Text style={styles.buttonText}>Reset Count</Text>
         </TouchableOpacity>
 
-        {sleepover===""? <SleepoverRequest/>:<Sleepover userId={props.userId} sleepoverid={sleepover}/>}
+      
         
 
       </View>
@@ -183,11 +189,17 @@ import SleepoverRequest from './SleepoverRequests';
 export default CounterPage
 
 const styles = StyleSheet.create({
+  
     container:{
         flex:1,
         alignItems: 'center',
         justifyContent: 'center',
         fontFamily: 'Nuito',
+        marginTop: -30
+    },
+    middleRow:{
+      flexDirection: "row",
+      gap: 30,
     },
     stats:{
       flexDirection:"row",
